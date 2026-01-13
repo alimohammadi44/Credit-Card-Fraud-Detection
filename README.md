@@ -13,6 +13,14 @@
 | **LightGBM**                    | Train / Validation / Test        | **0.974** *(~0.932)* | **0.946** | Strong performance with split validation                     |
 | **LightGBM (Cross-Validation)** | Cross-validation + Test          | —                    | **0.93**  | Slightly lower but more robust estimate                      |
 
+Key Takeaways :
 
+The dataset exhibited strong class imbalance, requiring careful evaluation using AUC rather than accuracy.
+
+Tree-based boosting models (XGBoost, LightGBM, CatBoost) consistently outperformed simpler ensemble methods.
+
+XGBoost achieved the highest predictive performance, demonstrating strong generalization.
+
+Cross-validation provided more conservative but robust estimates of model performance.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
 (https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/Credit_Card_Fraud_Detection_Predictive_Models.ipynb)
