@@ -1,5 +1,6 @@
 # 1 - Simple version of Credit Card Fraud Detection:
     Random Forest and Logistic Regression is applied.
+    
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
 (https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/credit_card_fraud_detection_Simple_Case.ipynb)
 
@@ -33,5 +34,6 @@ Tree-based boosting models (XGBoost, LightGBM, CatBoost) consistently outperform
 XGBoost achieved the highest predictive performance, demonstrating strong generalization.
 
 Cross-validation provided more conservative but robust estimates of model performance.
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
 (https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/Credit_Card_Fraud_Detection_Predictive_Models.ipynb)
