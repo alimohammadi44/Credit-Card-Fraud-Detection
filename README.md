@@ -123,9 +123,9 @@ If you’re asking “can an LLM directly beat XGBoost on Kaggle-style tabular f
 
 If you want models that sometimes beat XGBoost in fraud:
 
-Strong tree baselines first
+    Strong tree baselines first
 
-LightGBM / CatBoost (CatBoost is especially good with categoricals)
+    LightGBM / CatBoost (CatBoost is especially good with categoricals)
 
 Proper threshold tuning for PR-AUC / business cost (not just ROC-AUC)
 
