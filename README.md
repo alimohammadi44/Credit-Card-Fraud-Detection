@@ -123,23 +123,15 @@ If you’re asking “can an LLM directly beat XGBoost on Kaggle-style tabular f
 
 If you want models that sometimes beat XGBoost in fraud:
 
-1. **Strong tree baselines first**
+- **Strong tree baselines first**
+  - LightGBM / CatBoost (CatBoost is especially good with categoricals)
+  - Proper threshold tuning for PR-AUC / business cost (not just ROC-AUC)
+- **If you have time/behavior**
+  - Add sequential features (rolling windows), or try a sequence Transformer
+- **If you have relationships**
+  - Build a graph and try a GNN (node embeddings + transaction scoring)
+- **Hybrid approach (very common in real systems)**
+  - GNN embeddings + XGBoost classifier on top
+  - Sequence embedding + tree model  
+  This often gives most of the gain without full deep model serving complexity.
 
-2. **LightGBM / CatBoost (CatBoost is especially good with categoricals)**
-
-Proper threshold tuning for PR-AUC / business cost (not just ROC-AUC)
-
-If you have time/behavior
-
-Add sequential features (rolling windows), or try a sequence Transformer
-
-If you have relationships
-
-Build a graph and try a GNN (node embeddings + transaction scoring)
-
-Hybrid approach (very common in real systems)
-
-GNN embeddings + XGBoost classifier on top
-
-Sequence embedding + tree model
-This often gives most of the gain without full deep model serving complexity.
