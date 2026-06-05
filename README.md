@@ -1,137 +1,108 @@
-# 1 - Simple version of Credit Card Fraud Detection:
-    Random Forest and Logistic Regression is applied.
-    
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
-(https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/credit_card_fraud_detection_Simple_Case.ipynb)
+# Credit Card Fraud Detection
 
-# 2- Complete version of ML methods for Credid Card Fraud Detection:
-The datasets contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. The dataset is highly unbalanced, the positive class (frauds) account for 0.172% of all transactions.
+Machine learning experiments for detecting fraudulent credit card transactions using classical ML models, boosting methods, and fraud-specific evaluation metrics.
 
-It contains only numerical input variables which are the result of a PCA transformation.
+## Repository Category
 
-Due to confidentiality issues, there are not provided the original features and more background information about the data.
+**Original / Portfolio Project**
 
-Features V1, V2, ... V28 are the principal components obtained with PCA;
-The only features which have not been transformed with PCA are Time and Amount. Feature Time contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature Amount is the transaction Amount, this feature can be used for example-dependant cost-senstive learning.
-Feature Class is the response variable and it takes value 1 in case of fraud and 0 otherwise.
+This repository is part of my machine learning portfolio. It focuses on practical fraud detection using tabular transaction data and compares several supervised learning methods.
 
+## Overview
 
-| Model                           | Data Split / Validation Strategy | Validation AUC       | Test AUC  | Notes                                                        |
-| ------------------------------- | -------------------------------- | -------------------- | --------- | ------------------------------------------------------------ |
-| **Random Forest Classifier**    | Train / Test                     | —                    | **0.85**  | Baseline ensemble model                                      |
-| **AdaBoost Classifier**         | Train / Test                     | —                    | **0.83**  | Lower performance than Random Forest                         |
-| **CatBoost Classifier**         | Train / Test (500 iterations)    | —                    | **0.86**  | Improved performance with boosting                           |
-| **XGBoost**                     | Train / Validation / Test        | **0.984**            | **0.974** | Best overall performance; validation used for early stopping |
-| **LightGBM**                    | Train / Validation / Test        | **0.974** *(~0.932)* | **0.946** | Strong performance with split validation                     |
-| **LightGBM (Cross-Validation)** | Cross-validation + Test          | —                    | **0.93**  | Slightly lower but more robust estimate                      |
+Credit card fraud detection is a highly imbalanced classification problem. Fraud cases are rare compared with legitimate transactions, so models must be evaluated carefully using metrics such as AUC, precision, recall, and fraud-specific business tradeoffs.
 
-Key Takeaways :
+This project includes a simple baseline version and a more complete modeling workflow.
 
-The dataset exhibited strong class imbalance, requiring careful evaluation using AUC rather than accuracy.
+## Dataset
 
-Tree-based boosting models (XGBoost, LightGBM, CatBoost) consistently outperformed simpler ensemble methods.
+The dataset contains credit card transactions made in September 2013 by European cardholders. It includes 284,807 transactions, with 492 fraud cases. Fraudulent transactions represent about 0.172% of all transactions, making the dataset highly imbalanced.
 
-XGBoost achieved the highest predictive performance, demonstrating strong generalization.
+The input variables are numerical and mostly anonymized using PCA transformation:
 
-Cross-validation provided more conservative but robust estimates of model performance.
+- `V1` to `V28`: PCA-transformed principal components
+- `Time`: seconds elapsed between each transaction and the first transaction
+- `Amount`: transaction amount
+- `Class`: target variable, where `1` indicates fraud and `0` indicates a legitimate transaction
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
-(https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/Credit_Card_Fraud_Detection_Predictive_Models.ipynb)
+## Notebooks
 
+### 1. Simple Version
 
-# 3- Why XGBoost is often very strong for credit-card fraud detection?
+Random Forest and Logistic Regression are applied as baseline models.
 
-Fraud detection datasets typically have these properties: tabular features, lots of nonlinear interactions, messy distributions, missingness, high class imbalance, and sometimes concept drift. XGBoost matches that reality extremely well:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/credit_card_fraud_detection_Simple_Case.ipynb)
 
-Wins on tabular data: Gradient-boosted decision trees are still the “default champion” on structured/tabular problems because they model complex nonlinearities without requiring huge data or heavy feature scaling.
+### 2. Complete Version
 
-Captures feature interactions automatically: Fraud signals are often “if A and B and C, then risky.” Trees pick that up naturally.
+A more complete modeling workflow compares multiple machine learning methods.
 
-Built-in regularization: Shrinkage, subsampling, and tree constraints reduce overfitting—important because fraud labels are noisy and sparse.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/alimohammadi44/Credit-Card-Fraud-Detection/blob/main/Credit_Card_Fraud_Detection_Predictive_Models.ipynb)
 
-Handles imbalance well: You can use scale_pos_weight, class weights, custom loss, and threshold tuning to focus on recall/precision at the right operating point.
+## Model Results
 
-Robust with minimal preprocessing: No need for normalization; works fine with skewed features and mixed types (after encoding categoricals).
+| Model | Data Split / Validation Strategy | Validation AUC | Test AUC | Notes |
+|---|---|---:|---:|---|
+| Random Forest Classifier | Train / Test | — | 0.85 | Baseline ensemble model |
+| AdaBoost Classifier | Train / Test | — | 0.83 | Lower performance than Random Forest |
+| CatBoost Classifier | Train / Test, 500 iterations | — | 0.86 | Improved performance with boosting |
+| XGBoost | Train / Validation / Test | 0.984 | 0.974 | Best overall performance; validation used for early stopping |
+| LightGBM | Train / Validation / Test | 0.974 | 0.946 | Strong performance with split validation |
+| LightGBM with Cross-Validation | Cross-validation + Test | — | 0.93 | Slightly lower but more robust estimate |
 
-Fast training + fast inference: Important for production scoring latency.
+## Key Takeaways
 
-Good “practical interpretability”: Feature importance + SHAP explanations are widely used in fraud teams.
+- The dataset is strongly imbalanced, so AUC and recall/precision tradeoffs are more useful than accuracy alone.
+- Tree-based boosting models such as XGBoost, LightGBM, and CatBoost performed strongly.
+- XGBoost achieved the highest predictive performance in these experiments.
+- Cross-validation produced a more conservative but robust performance estimate.
 
-In short: XGBoost is a great fit when your inputs are mostly engineered numeric/tabular features and you need a strong baseline with reliable deployment behavior
+## Why XGBoost Works Well for Fraud Detection
 
-# 4- Graph Neural Networks (GNNs): can be superior when fraud is relational
+Fraud detection datasets often contain tabular features, nonlinear interactions, noisy labels, and class imbalance. XGBoost is a strong fit because it:
 
-If you can build a graph like:
+- performs well on structured/tabular data
+- captures feature interactions automatically
+- includes regularization to reduce overfitting
+- supports imbalance handling through parameters such as `scale_pos_weight`
+- requires limited preprocessing compared with many neural models
+- supports practical interpretability through feature importance and SHAP explanations
 
+## Future Extensions
+
+### Graph Neural Networks
+
+GNNs can be useful when fraud is relational. For example, a graph can connect:
+
+```text
 customer ↔ card ↔ device ↔ IP ↔ merchant ↔ transaction
+```
 
-edges represent usage, co-occurrence, transfers, shared identifiers
+This can help detect fraud rings, collusion, mule networks, shared devices, and synthetic identities.
 
-…then GNNs can outperform XGBoost because they detect fraud rings, collusion, mule networks, shared devices, synthetic identities—patterns that are hard to capture in flat features.
+### Sequence Models
 
-When GNNs tend to win
+Sequence models such as RNNs or Transformers may be useful when fraud depends on transaction histories, spending behavior over time, velocity patterns, or sudden behavioral changes.
 
-You have rich linkage data (device IDs, IPs, merchant networks, shared addresses/emails)
+### LLM-Assisted Fraud Workflows
 
-Fraud patterns are network-based
+Large language models are usually not the best direct classifier for pure numeric fraud data, but they can help with:
 
-You can update embeddings frequently (or use temporal/dynamic GNNs)
+- merchant description normalization
+- investigator summaries
+- customer support or dispute-note analysis
+- feature enrichment from text
+- explanation generation
 
-Tradeoffs
+## Recommended Next Steps
 
-More complex pipeline (graph construction, negative sampling, temporal leakage control)
+- Add precision-recall curves
+- Add confusion matrices for different decision thresholds
+- Add SHAP explainability plots
+- Add cost-sensitive fraud evaluation
+- Add a reproducible `requirements.txt`
+- Add a clean `src/` folder for reusable model code
 
-Harder to interpret and monitor
+## Author
 
-Serving can be heavier (unless you precompute embeddings)
-
-If your dataset is only the classic Kaggle “V1…V28 + Amount” style table, GNNs usually don’t have an advantage because there’s no graph signal to exploit.
-
-# 5- Sequence models (RNN/Transformer): can beat XGBoost when behavior over time matters
-
-Fraud often depends on transaction sequences (velocity, changes in spending pattern, bursts, location hopping). If you model per-card/per-user sequences, Transformers can shine.
-
-When they win
-
-You have ordered transaction histories per entity
-
-Fraud is behavior/anomaly in time, not just per-transaction static features
-
-Tradeoffs
-
-More data and more careful leakage handling (time splits)
-
-More tuning and monitoring
-
-# 6- LLMs: rarely “better classifier” on pure tabular fraud
-
-but useful in specific roles
-
-LLMs aren’t typically the best standalone fraud classifier for numeric tabular data. Where they can help:
-
-Text-heavy inputs: merchant descriptions, dispute notes, customer support logs, reason codes
-
-Feature generation / enrichment: turn messy strings into normalized entities/categories
-
-Rules + explanations: produce human-readable rationales or draft investigator summaries
-
-Data cleaning: entity resolution, mapping merchants, standardizing addresses (with careful controls)
-
-If you’re asking “can an LLM directly beat XGBoost on Kaggle-style tabular fraud?” — usually no. If you have rich text + metadata + graph + sequences, then an LLM can be part of a strong system (often as an auxiliary model or feature extractor).
-
-# 7- Conclusion:
-
-If you want models that sometimes beat XGBoost in fraud:
-
-- **Strong tree baselines first**
-  - LightGBM / CatBoost (CatBoost is especially good with categoricals)
-  - Proper threshold tuning for PR-AUC / business cost (not just ROC-AUC)
-- **If you have time/behavior**
-  - Add sequential features (rolling windows), or try a sequence Transformer
-- **If you have relationships**
-  - Build a graph and try a GNN (node embeddings + transaction scoring)
-- **Hybrid approach (very common in real systems)**
-  - GNN embeddings + XGBoost classifier on top
-  - Sequence embedding + tree model  
-  This often gives most of the gain without full deep model serving complexity.
-
+Ali Mohammadi — [@alimohammadi44](https://github.com/alimohammadi44)
